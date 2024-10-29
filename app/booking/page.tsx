@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useRef } from 'react';
-import emailjs from '@emailjs/browser';
 
 const Booking = () => {
 	const form = useRef<HTMLFormElement | null>(null);
