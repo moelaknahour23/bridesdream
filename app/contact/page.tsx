@@ -102,157 +102,146 @@ const ContactForm = () => {
 		}
 		setLoading(true); // Start loading spinner
 
-		// Send email to your team
-		emailjs
-			.send(
-				process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? '',
-				process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? '', // Template ID for your team
-				{
-					from_title: 'Contact Us',
-					to_name: 'Mahsa',
-					from_name: formData.name,
-					from_email: formData.email,
-					from_phone: formData.phone,
-					from_message: formData.message,
+		try {
+			const response = await fetch('/api/send-email-contact', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
 				},
-				process.env.NEXT_PUBLIC_EMAILJS_USER_PUBLIC_KEY ?? ''
-			)
-			.then(() => {
-				// After successfully sending the email to your team, send the auto-reply to the user
-				emailjs
-					.send(
-						process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? '',
-						process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID_REPLY ?? '',
-						{
-							from_name: formData.name, // Auto-reply uses this data to personalize the email
-							to_email: formData.email, // Send the auto-reply to the user's email
-						},
-						process.env.NEXT_PUBLIC_EMAILJS_USER_PUBLIC_KEY ?? ''
-					)
-					.then(() => {
-						setLoading(false); // Stop loading spinner
-						setFormData({
-							name: '',
-							email: '',
-							phone: '',
-							message: '',
-						});
-						setSubmissionSuccess(true); // Show success message
-					})
-					.catch((error) => {
-						setLoading(false); // Stop loading spinner
-						console.error('Auto-reply failed...', error.text);
-					});
-			})
-			.catch((error) => {
-				setLoading(false); // Stop loading spinner
-				console.error('Failed to send email to team...', error.text);
+				body: JSON.stringify({ formData }),
 			});
+
+			if (response.ok) {
+				console.log('Email sent successfully');
+				setLoading(false); // Stop loading spinner
+				setFormData({
+					name: '',
+					email: '',
+					phone: '',
+					message: '',
+				});
+				setCharCount(0);
+				setSubmissionSuccess(true); // Show success message
+			} else {
+				console.error('Failed to send email');
+				setLoading(false);
+			}
+		} catch (error) {
+			console.error('Error:', error);
+			setLoading(false);
+		}
 	};
 
 	return (
-		<div className='flex justify-center   p-6  flex-col  md:flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8'>
-			<div className='bg-superLightBlue w-full max-w-[700px] h-[600px] shadow-xl rounded-r-2xl p-8 justify-center items-center '>
+		<div className='flex justify-center  p-6  flex-col  md:flex-col lg:flex-row space-y-8 lg:space-y-0 lg:space-x-8'>
+			<div className='bg-gray100 w-full max-w-[700px] shadow-xl rounded-2xl p-8 justify-center items-center '>
 				{/* Left Form */}
-				<div className='w-full lg:w-2/3'>
+				<div className={`w-full ${submissionSuccess ? 'w-4/3' : 'lg:w-2/3'}`}>
 					<h2 className='text-3xl font-semibold mb-4 text-pink'>Contact Us</h2>
 					{/* <p className='text-gray-600 mb-6'>
 						We are deeply committed to delivering unparalleled service and unwavering support to ensure your experience exceeds expectations.
 					</p> */}
-
-					<form className='space-y-4' onSubmit={handleSubmit}>
-						<div className=''>
+					{submissionSuccess ? (
+						<div className='text-green-500 animate-fadeIn bg-lightGreem rounded-2xl'>
+							<h2 className='text-xl text-center font-bold text-green py-6 px-4'>
+								Thank you! <span className='font-light'>we&apos;ve recived your request and will call you back.</span>
+							</h2>
+						</div>
+					) : (
+						<form className='space-y-4' onSubmit={handleSubmit}>
 							<div>
-								<label className='block text-sm font-medium text-gray-700' htmlFor='name'>
-									Name <span className='text-red'>*</span>
+								<div>
+									<label className='block text-sm font-medium text-gray-700' htmlFor='name'>
+										Name <span className='text-red'>*</span>
+									</label>
+									<input
+										id='name'
+										type='text'
+										placeholder='Enter your full name'
+										className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
+										value={formData.name}
+										onChange={handleChange}
+									/>
+									{validationErrors.name && <p className='text-red text-sm '>{validationErrors.name}</p>}
+								</div>
+							</div>
+
+							<div>
+								<label className='block text-sm font-medium text-gray-700' htmlFor='email'>
+									Email <span className='text-red'>*</span>
 								</label>
 								<input
-									id='name'
-									type='text'
-									placeholder='Enter your full name'
+									type='email'
+									id='email'
+									placeholder='Enter your email'
 									className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
-									value={formData.name}
+									value={formData.email}
 									onChange={handleChange}
 								/>
-								{validationErrors.name && <p className='text-red text-sm '>{validationErrors.name}</p>}
+								{validationErrors.email && <p className='text-red text-sm '>{validationErrors.email}</p>}
 							</div>
-						</div>
 
-						<div>
-							<label className='block text-sm font-medium text-gray-700' htmlFor='email'>
-								Email <span className='text-red'>*</span>
-							</label>
-							<input
-								type='email'
-								id='email'
-								placeholder='Enter your email'
-								className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
-								value={formData.email}
-								onChange={handleChange}
-							/>
-							{validationErrors.email && <p className='text-red text-sm '>{validationErrors.email}</p>}
-						</div>
-
-						<div>
-							<label className='block text-sm font-medium text-gray-700' htmlFor='phone'>
-								Phone Number <span className='text-red'>*</span>
-							</label>
-							<input
-								id='phone'
-								type='tel'
-								placeholder='Enter your phone number'
-								className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
-								value={formData.phone}
-								onChange={handleChange}
-							/>
-							{validationErrors.phone && <p className='text-red text-sm '>{validationErrors.phone}</p>}
-						</div>
-
-						<div>
-							<label className='block text-sm font-medium text-gray-700' htmlFor='message'>
-								Message <span className='text-red'>*</span>
-							</label>
-							<textarea
-								id='message'
-								placeholder='Enter your message...'
-								className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
-								rows={4}
-								value={formData.message}
-								onChange={handleChange}
-							/>
-							<p className='text-sm text-gray-600'>
-								{charCount}/{maxMessageLength} characters
-							</p>
-							{validationErrors.message && <p className='text-red text-sm '>{validationErrors.message}</p>}
-						</div>
-
-						{formSubmitted && Object.values(validationErrors).some((error) => error) && (
-							<div className='bg-orange100 border-l-4 border-orange500 text-orange700 p-4 my-4' role='alert'>
-								<p>Please fix the errors above before submittin.</p>
+							<div>
+								<label className='block text-sm font-medium text-gray-700' htmlFor='phone'>
+									Phone Number <span className='text-red'>*</span>
+								</label>
+								<input
+									id='phone'
+									type='tel'
+									placeholder='Enter your phone number'
+									className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
+									value={formData.phone}
+									onChange={handleChange}
+								/>
+								{validationErrors.phone && <p className='text-red text-sm '>{validationErrors.phone}</p>}
 							</div>
-						)}
-						<div className='flex items-center justify-center mb-4'>
-							<button type='submit' className='w-full py-2 px-4 bg-blue-600 text-white bg-pink rounded-md hover:bg-blue-700'>
-								{loading ? (
-									<div className='flex items-center'>
-										<svg className='animate-spin h-5 w-5 text-white mr-2' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
-											<circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4'></circle>
-											<path className='opacity-75' fill='currentColor' d='M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z'></path>
-										</svg>
-										Submitting...
-									</div>
-								) : (
-									'Book Appointment'
-								)}
-							</button>
-						</div>
-					</form>
+
+							<div>
+								<label className='block text-sm font-medium text-gray-700' htmlFor='message'>
+									Message <span className='text-red'>*</span>
+								</label>
+								<textarea
+									id='message'
+									placeholder='Enter your message...'
+									className='mt-1 p-2 block w-full border border-gray-300 rounded-md'
+									rows={4}
+									value={formData.message}
+									onChange={handleChange}
+								/>
+								<p className='text-sm text-gray-600'>
+									{charCount}/{maxMessageLength} characters
+								</p>
+								{validationErrors.message && <p className='text-red text-sm '>{validationErrors.message}</p>}
+							</div>
+
+							{formSubmitted && Object.values(validationErrors).some((error) => error) && (
+								<div className='bg-orange100 border-l-4 border-orange500 text-orange700 p-4 my-4' role='alert'>
+									<p>Please fix the errors above before submittin.</p>
+								</div>
+							)}
+							<div className='flex items-center justify-center mb-4'>
+								<button type='submit' className='w-full py-2 px-4 bg-blue-600 text-white bg-pink rounded-md hover:bg-blue-700'>
+									{loading ? (
+										<div className='flex items-center'>
+											<svg className='animate-spin h-5 w-5 text-white mr-2' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'>
+												<circle className='opacity-25' cx='12' cy='12' r='10' stroke='currentColor' strokeWidth='4'></circle>
+												<path className='opacity-75' fill='currentColor' d='M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z'></path>
+											</svg>
+											Submitting...
+										</div>
+									) : (
+										'Book Appointment'
+									)}
+								</button>
+							</div>
+						</form>
+					)}
 				</div>
 			</div>
 			{/* Right Info Section */}
 			<div className='w-auto max-w-[600px] lg:w-2/3 space-y-4 sm:ml-8 '>
 				{/* Contact Section */}
-				<div className='bg-gray100 p-6 h-[130px] rounded-2xl flex items-center space-x-4'>
+				<div className='bg-gray100 shadow-xl p-6 h-[130px] rounded-2xl flex items-center space-x-4'>
 					<FontAwesomeIcon icon={faPhone} className='h-8 w-8 text-pink' />
 					<div>
 						<h3 className='font-semibold text-lg'>Contact</h3>
@@ -266,7 +255,7 @@ const ContactForm = () => {
 				</div>
 
 				{/* Email Section */}
-				<div className='bg-gray100 p-6 h-[130px] rounded-2xl  flex items-center space-x-4'>
+				<div className='bg-gray100 shadow-xl p-6 h-[130px] rounded-2xl  flex items-center space-x-4'>
 					<FontAwesomeIcon icon={faEnvelope} className='h-8 w-8 text-pink' />
 					<div>
 						<h3 className='font-semibold text-lg'>Email</h3>
@@ -280,7 +269,7 @@ const ContactForm = () => {
 				</div>
 
 				{/* Working Hours Section */}
-				<div className='bg-gray100 p-6  h-[130px] rounded-2xl flex items-center space-x-4'>
+				<div className='bg-gray100 shadow-xl p-6  h-[130px] rounded-2xl flex items-center space-x-4'>
 					<FontAwesomeIcon icon={faClock} className='h-8 w-8 text-pink' />
 					<div>
 						<h3 className='font-semibold text-lg'>Working Hours</h3>

@@ -14,9 +14,9 @@ const Packages = () => {
 				{/* <Fade direction='left' triggerOnce={true}> */}
 				<div className='flex flex-col  max-w-[300px] h-[400px]  items-center bg-gradient-to-br from-orange100 via-orange100  p-4 rounded-2xl shadow-lg relative border-4 border-orange200'>
 					<div>
-						<h2 className='font-extrabold text-2xl text-center mb-2'>Starter</h2>
+						<h2 className='font-extrabold text-2xl text-center mb-1'>Starter</h2>
 						<p className='opacity-60 text-center'>Wedding Gown & Tuxedo Package</p>
-						<div className='flex flex-col items-center my-8'>
+						<div className='flex flex-col items-center my-6'>
 							<div className='flex items-center space-x-2'>
 								<p className='text-md line-through text-gray-500'>$420</p>
 								<p className='text-2xl font-bold text-black'>$390</p>
@@ -68,7 +68,7 @@ const Packages = () => {
 							<div className='flex flex-col items-center my-8'>
 								<div className='flex items-center space-x-2'>
 									<p className='text-md line-through text-gray-500'>$490</p>
-									<p className='text-2xl font-bold text-black'>$460</p>
+									<p className='text-2xl font-bold text-black'>$450</p>
 								</div>
 							</div>
 						</div>
@@ -115,7 +115,7 @@ const Packages = () => {
 						<div className='flex flex-col items-center my-8'>
 							<div className='flex items-center space-x-2'>
 								<p className='text-md line-through text-gray-500'>$550</p>
-								<p className='text-2xl font-bold text-black'>$510</p>
+								<p className='text-2xl font-bold text-black'>$500</p>
 							</div>
 						</div>
 					</div>
@@ -151,7 +151,7 @@ const Packages = () => {
 						<div className='flex flex-col items-center my-8'>
 							<div className='flex items-center space-x-2'>
 								<p className='text-md line-through text-gray-500'>$690</p>
-								<p className='text-2xl font-bold text-black'>$650</p>
+								<p className='text-2xl font-bold text-black'>$630</p>
 							</div>
 						</div>
 					</div>

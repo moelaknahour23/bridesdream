@@ -19,8 +19,8 @@ const Home = () => {
 							{/* </Fade> */}
 							{/* <Fade direction='left' triggerOnce={true}> */}
 							<p className='text-md sm:text-base lg:text-lg text-grey font-normal mb-10 lg:text-start max-w-[620px]'>
-								Enhance your wedding day with our professional on-site steaming service. Our experienced team will come to your location to expertly steam wedding
-								gowns, tuxedos, and other garments, ensuring a polished and fresh appearance so you can feel confident and beautiful on your special day.
+								Elevate your wedding day with our on-location steaming service. Our professionals will come directly to you, providing expert steaming for wedding
+								gowns, tuxedos, and other garments to ensure they look pristine and fresh, allowing you to feel your best and shine on your special day.
 							</p>
 							{/* </Fade> */}
 							<div className='md:flex mb-6 align-middle justify-center lg:justify-start'>

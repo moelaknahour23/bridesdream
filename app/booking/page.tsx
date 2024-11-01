@@ -1,6 +1,18 @@
 'use client';
 import React, { useState, useRef } from 'react';
 
+type FormData = {
+	name: string;
+	email: string;
+	phone: string;
+	location: string;
+	date: string;
+	time: string;
+	package: string;
+	services: string[];
+	message: string;
+};
+
 const Booking = () => {
 	const form = useRef<HTMLFormElement | null>(null);
 	const [formSubmitted, setFormSubmitted] = useState(false);
@@ -10,17 +22,32 @@ const Booking = () => {
 	const maxMessageLength = 300;
 	const minMessageLength = 5;
 
-	const [formData, setFormData] = useState({
+	const [isOpen, setIsOpen] = useState(false);
+	const [isOpenPackage, setIsOpenPackage] = useState(false);
+
+	const toggleAccordion = () => {
+		setIsOpen(!isOpen);
+		if (!isOpen) {
+			setIsOpenPackage(false);
+		}
+	};
+
+	const toggleAccordionPackage = () => {
+		setIsOpenPackage(!isOpenPackage);
+		if (!isOpenPackage) {
+			setIsOpen(false);
+		}
+	};
+
+	const [formData, setFormData] = useState<FormData>({
 		name: '',
 		email: '',
 		phone: '',
 		location: '',
 		date: '',
 		time: '',
-		service1: '',
-		service2: '',
-		service3: '',
-		service4: '',
+		package: 'Select a Package',
+		services: [], // Array to store selected services
 		message: '',
 	});
 
@@ -57,10 +84,21 @@ const Booking = () => {
 			return; // Exit early if the character limit is reached
 		}
 
-		setFormData((prevState) => ({
-			...prevState,
-			[id]: type === 'checkbox' ? (checked ? value : '') : id === 'phone' ? formatPhoneNumber(value) : value,
-		}));
+		if (type === 'checkbox') {
+			// Handle checkboxes for services
+			setFormData((prevState) => ({
+				...prevState,
+				services: checked ? [...prevState.services, value] : prevState.services.filter((service) => service !== value),
+			}));
+		} else if (type === 'radio' && id === 'package') {
+			// Handle radio for package
+			setFormData((prevState) => ({ ...prevState, package: value }));
+		} else if (id === 'phone') {
+			// Handle phone formatting
+			setFormData((prevState) => ({ ...prevState, [id]: formatPhoneNumber(value) }));
+		} else {
+			setFormData((prevState) => ({ ...prevState, [id]: value }));
+		}
 	};
 
 	const validateForm = () => {
@@ -89,10 +127,10 @@ const Booking = () => {
 			errors.date = 'Wedding date is required';
 			isValid = false;
 		}
-		if (formData.message.length > maxMessageLength) {
+		if (formData.message.length > maxMessageLength && formData.message.length > 1) {
 			errors.message = `Message cannot exceed ${maxMessageLength} characters`;
 			isValid = false;
-		} else if (formData.message.length < minMessageLength) {
+		} else if (formData.message.length < minMessageLength && formData.message.length > 1) {
 			errors.message = `Message must be at least ${minMessageLength} characters long`;
 			isValid = false;
 		}
@@ -100,61 +138,6 @@ const Booking = () => {
 		setValidationErrors(errors);
 		return isValid;
 	};
-
-	// const handleSubmit = async (e: any) => {
-	// 	e.preventDefault();
-
-	// 	if (!validateForm()) {
-	// 		setFormSubmitted(true);
-	// 		return;
-	// 	}
-	// 	setLoading(true); // Start loading spinner
-
-	// 	emailjs
-	// 		.send(
-	// 			process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID ?? '',
-	// 			process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID ?? '',
-	// 			{
-	// 				from_title: 'Book an Appointment',
-	// 				to_name: 'Mahsa',
-	// 				from_name: formData.name,
-	// 				from_email: formData.email,
-	// 				from_phone: formData.phone,
-	// 				from_weddingLocation: formData.location,
-	// 				from_weddingDate: formData.date,
-	// 				from_weddingTime: formData.time,
-	// 				from_services1: formData.service1 || 'NA',
-	// 				from_services2: formData.service2 || 'NA',
-	// 				from_services3: formData.service3 || 'NA',
-	// 				from_services4: formData.service4 || 'NA',
-	// 				from_message: formData.message,
-	// 			},
-	// 			process.env.NEXT_PUBLIC_EMAILJS_USER_PUBLIC_KEY ?? ''
-	// 		)
-	// 		.then(
-	// 			() => {
-	// 				setLoading(false); // Stop loading spinner
-	// 				setFormData({
-	// 					name: '',
-	// 					email: '',
-	// 					phone: '',
-	// 					location: '',
-	// 					date: '',
-	// 					time: '',
-	// 					service1: '',
-	// 					service2: '',
-	// 					service3: '',
-	// 					service4: '',
-	// 					message: '',
-	// 				});
-	// 				setSubmissionSuccess(true); // Show success message
-	// 			},
-	// 			(error: any) => {
-	// 				setLoading(false); // Stop loading spinner
-	// 				console.log('FAILED...', error.text);
-	// 			}
-	// 		);
-	// };
 
 	const handleSubmit = async (e: any) => {
 		e.preventDefault();
@@ -166,7 +149,7 @@ const Booking = () => {
 		setLoading(true); // Start loading spinner
 
 		try {
-			const response = await fetch('/api/send-email', {
+			const response = await fetch('/api/send-email-booking', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -184,13 +167,12 @@ const Booking = () => {
 					location: '',
 					date: '',
 					time: '',
-					service1: '',
-					service2: '',
-					service3: '',
-					service4: '',
+					package: 'Select a Package',
+					services: [],
 					message: '',
 				});
 				setSubmissionSuccess(true); // Show success message
+				setCharCount(0);
 			} else {
 				console.error('Failed to send email');
 				setLoading(false);
@@ -317,55 +299,134 @@ const Booking = () => {
 								/>
 							</div>
 							<div className='mb-4'>
-								<label className='block text-gray600 font-medium mb-2'>Services</label>
-								<div className='f-mx-2'>
-									<div className='px-2 '>
-										<label htmlFor='service1' className='block text-gray600 font-medium mb-2'>
-											<input
-												type='checkbox'
-												id='service1'
-												value='Wedding Gown Steaming'
-												checked={!!formData.service1}
-												className='mr-2'
-												onChange={handleChange}
-											/>
-											Wedding Gown Steaming
-										</label>
-									</div>
-									<div className='px-2 '>
-										<label htmlFor='service2' className='block text-gray600 font-medium mb-2'>
-											<input type='checkbox' id='service2' value='Tuxedo Steaming' checked={!!formData.service2} className='mr-2' onChange={handleChange} />
-											Tuxedo Steaming
-										</label>
-									</div>
-									<div className='px-2 '>
-										<label htmlFor='service3' className='block text-gray600 font-medium mb-2'>
-											<input
-												type='checkbox'
-												id='service3'
-												value='Bridal Party Attire'
-												checked={!!formData.service3}
-												className='mr-2'
-												onChange={handleChange}
-											/>
-											Bridal Party Attire
-										</label>
-									</div>
-									<div className='px-2 '>
-										<label htmlFor='service4' className='block text-gray600 font-medium mb-2'>
-											<input
-												type='checkbox'
-												id='service4'
-												value='Other Formal Dress Steaming'
-												checked={!!formData.service4}
-												className='mr-2'
-												onChange={handleChange}
-											/>
-											Other Formal Dress Steaming
-										</label>
-									</div>
+								<label className='block text-gray-600 mb-2'>Services</label>
+								<div className='f-mx-2 relative'>
+									{/* Accordion Toggle Button */}
+									<button
+										type='button'
+										onClick={toggleAccordion}
+										className='w-full text-left font-medium text-gray-700 hover:text-gray-900 px-2 py-2 border rounded-md bg-gray-100 flex items-center justify-between'
+									>
+										<span>{formData.services.length !== 0 ? formData.services.length + ' Services Selected' : 'Select Services'}</span>
+
+										{/* Arrow Icon */}
+										<span>{isOpen ? '▲' : '▼'}</span>
+									</button>
+
+									{/* Accordion Content */}
+									{isOpen && (
+										<div className='absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg p-2'>
+											{['Wedding Gown Steaming', 'Tuxedo Steaming', 'Bridal Party Attire', 'Other Formal Dress Steaming'].map((service) => (
+												<div className='px-2' key={service}>
+													<label className='block text-gray-600 font-medium mb-2'>
+														<input
+															type='checkbox'
+															value={service}
+															checked={formData.services.includes(service)}
+															className='mr-2 h-4 w-4'
+															onChange={handleChange}
+														/>
+														{service}
+													</label>
+												</div>
+											))}
+										</div>
+									)}
 								</div>
 							</div>
+
+							<div className='mb-4'>
+								<label className='block text-gray-600 mb-2'>Packages</label>
+								<div className='f-mx-2 relative'>
+									{/* Accordion Toggle Button */}
+									<button
+										type='button'
+										onClick={toggleAccordionPackage}
+										className='w-full text-left font-medium text-gray-700 hover:text-gray-900 px-2 py-2 border rounded-md bg-gray-100 flex items-center justify-between'
+									>
+										<span>{formData.package !== 'Select a Package' ? formData.package + ' Package' : formData.package} </span>
+										{/* Arrow Icon */}
+										<span>{isOpenPackage ? '▲' : '▼'}</span>
+									</button>
+
+									{/* Accordion Content - Only visible when isOpenPackage is true */}
+									{isOpenPackage && (
+										<div className='absolute z-10 mt-1 w-full bg-white border border-gray-200 rounded-md shadow-lg p-2'>
+											<div className='px-2'>
+												<label htmlFor='package' className='flex text-gray-600  mb-3'>
+													<input
+														type='radio'
+														id='package'
+														name='package' // Same name for grouping
+														value='Select a Package'
+														checked={formData.package === 'Select a Package'}
+														className='mr-2 h-5 w-5'
+														onChange={(e) => setFormData({ ...formData, package: e.target.value })}
+													/>
+													Select a Package
+												</label>
+											</div>
+											<div className='px-2'>
+												<label htmlFor='package' className='flex text-gray-600  mb-3'>
+													<input
+														type='radio'
+														id='package'
+														name='package' // Same name for grouping
+														value='Starter'
+														checked={formData.package === 'Starter'}
+														className='mr-2 h-5 w-5'
+														onChange={(e) => setFormData({ ...formData, package: e.target.value })}
+													/>
+													Starter
+												</label>
+											</div>
+											<div className='px-2'>
+												<label htmlFor='package' className='flex text-gray-600 mb-3'>
+													<input
+														type='radio'
+														id='package'
+														name='package'
+														value='Silver'
+														checked={formData.package === 'Silver'}
+														className='mr-2 h-5 w-5'
+														onChange={(e) => setFormData({ ...formData, package: e.target.value })}
+													/>
+													<span>Silver</span>
+												</label>
+											</div>
+											<div className='px-2'>
+												<label htmlFor='package' className='flex text-gray-600  mb-3'>
+													<input
+														type='radio'
+														id='package'
+														name='package'
+														value='Gold'
+														checked={formData.package === 'Gold'}
+														className='mr-2 h-5 w-5'
+														onChange={(e) => setFormData({ ...formData, package: e.target.value })}
+													/>
+													Gold
+												</label>
+											</div>
+											<div className='px-2'>
+												<label htmlFor='package' className='block text-gray-600  mb-3'>
+													<input
+														type='radio'
+														id='package'
+														name='package'
+														value='Platinum'
+														checked={formData.package === 'Platinum'}
+														className='mr-2 h-5 w-5'
+														onChange={(e) => setFormData({ ...formData, package: e.target.value })}
+													/>
+													Platinum
+												</label>
+											</div>
+										</div>
+									)}
+								</div>
+							</div>
+
 							<div className='mb-4'>
 								<label className='block text-gray600 mb-2' htmlFor='message'>
 									Message

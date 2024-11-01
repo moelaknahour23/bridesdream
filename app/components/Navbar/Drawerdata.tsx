@@ -43,13 +43,13 @@ const Data = () => {
 						<div className='mt-4'></div>
 						<button
 							onClick={() => router.push('/booking')}
-							className='flex justify-center text-base w-full font-medium rounded-full bg-bgpink text-pink py-3 px-4 lg:px-8 navbutton hover:text-white'
+							className='flex justify-center text-base w-full border  border-pink text-pink py-4 px-4 mr-4 lg:px-8 navbutton rounded-full hover:text-white hover:bg-pink transition ease-in duration-200'
 						>
 							Booking
 						</button>
 						<button
 							onClick={() => router.push('/contact')}
-							className='flex justify-center text-base w-full font-medium rounded-full bg-transparent border border-bgpink text-pink py-3 px-4 lg:px-8 navbutton hover:text-white hover:bg-pink'
+							className='flex justify-center text-base w-full  bg-pink  text-white py-4 px-4 border border-pink lg:px-8 navbutton rounded-full hover:border hover:border-pink hover:bg-white hover:text-pink transition ease-in duration-200'
 						>
 							Contact us
 						</button>
