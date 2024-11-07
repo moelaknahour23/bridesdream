@@ -19,14 +19,14 @@ const About = () => {
 						{/* </Fade> */}
 						{/* <Fade direction='right' triggerOnce={true}> */}
 						<p className='text-grey md:text-lg font-normal mb-5 text-start'>
-							At Bride's Dream, we’re dedicated to making your wedding day as flawless as you’ve imagined. Our on-site steaming service ensures that every{' '}
-							<strong>garment</strong>, from <strong>wedding gowns</strong> to <strong>tuxedos</strong>, is ready for your big day. Our team arrives at your location
-							with professional equipment, carefully steaming each piece to create a crisp, polished look.
+							At Bride&apos;s Dream, we&apos;re dedicated to making your wedding day as flawless as you&apos;ve imagined. Our on-site steaming service ensures that
+							every <strong>garment</strong>, from <strong>wedding gowns</strong> to <strong>tuxedos</strong>, is ready for your big day. Our team arrives at your
+							location with professional equipment, carefully steaming each piece to create a crisp, polished look.
 						</p>
 						<p className='text-grey md:text-lg font-normal mb-10 text-start'>
-							We understand that <strong>every detail matters</strong> on your special day. That’s why we prioritize punctuality and precision, handling every garment
-							with exceptional care so you can feel confident and radiant. Trust Bride's Dream to deliver not only impeccable results but also the peace of mind you
-							deserve, allowing you to relax and savor each unforgettable moment.
+							We understand that <strong>every detail matters</strong> on your special day. That&apos;s why we prioritize punctuality and precision, handling every
+							garment with exceptional care so you can feel confident and radiant. Trust Bride&apos;s Dream to deliver not only impeccable results but also the peace
+							of mind you deserve, allowing you to relax and savor each unforgettable moment.
 						</p>
 						{/* </Fade> */}
 					</div>
