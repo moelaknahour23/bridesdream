@@ -44,6 +44,9 @@ module.exports = {
 			orange100: 'rgb(255 237 213)', // via-orange-100
 			orange200: 'rgb(254 215 170)', // border-orange-200
 			red400: 'rgb(248 113 113)', // fill-red-400, bg-red-400
+			lightRed100: 'rgb(255 141 141 / 10%)',
+			lightRed: 'rgb(255 141 141 / 25%)',
+			darktRed: 'rgb(255 141 141 / 70%)',
 			violet400: 'rgb(139 92 246)', // border-violet-400
 			violet100: 'rgb(237 233 254)', // hover:bg-violet-100
 			blue100: 'rgb(219 234 254)', // from-blue-100

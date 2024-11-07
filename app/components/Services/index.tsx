@@ -34,7 +34,7 @@ const cardData1: cardDataType[] = [
 const cardData2: cardDataType[] = [
 	{
 		imgSrc: '/images/Features/bridal.jpg',
-		heading: 'Bridal Party Attire',
+		heading: 'Bridesmaid/Maid of Honor Dress Steaming',
 		subheading: 'Steaming services for bridesmaids dresses and other bridal party garments, ensuring a polished look for all members.',
 		link: 'Learn more',
 		price: '70',
@@ -61,23 +61,18 @@ const Services = () => {
 		return () => clearTimeout(timer);
 	}, []);
 	return (
-		<div>
+		<div className='flex justify-center bg-lightpink'>
 			{isVisible && (
-				<div className='mx-auto max-w-8xl px-12 py-12 bg-lightpink' id='services-section'>
-					<div className=' text-center mb-10 '>
-						{/* <Fade direction='left' triggerOnce={true}> */}
+				<div className='mx-auto max-w-8xl px-8 py-12 ' id='services-section'>
+					<div className='text-center mb-10'>
 						<p className='text-3xl lg:text-4xl font-semibold text-lightgrey'>Services & Pricing</p>
-						{/* </Fade> */}
+						<p className='text-base font-semibold text-red-600 mt-4 bg-yellow-100 inline-block p-2 rounded-md'>
+							<span className='text-red'>Please note:</span> A <strong>minimum</strong> charge of <strong>$200</strong> applies to all on-location steaming services.
+						</p>
 					</div>
-					<div className='grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8 text-zinc800 justify-center'>
-						{/* <div className='grid sm:grid-cols-2  md:grid-cols-2 lg:grid-cols-4 gap-10 '> */}
+					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-8 text-zinc800 justify-items-center'>
 						{cardData1.map((items, i) => (
-							// <div
-							// 	className='flex flex-col  max-w-[250px] items-center bg-gradient-to-br from-orange100 p-4 rounded-3xl shadow-lg relative border-4 border-orange200'
-							// 	key={i}
-							// >
-							// <Fade direction='left' triggerOnce={true} key={i}>
-							<div className='card-b relative max-w-[310px] rounded-3xl flex flex-col items-center ' key={i}>
+							<div className='card-b relative max-w-[310px] rounded-3xl flex flex-col items-center' key={i}>
 								<div className='work-img-bg rounded-full flex justify-center mb-0'>
 									<Image src={items.imgSrc} alt={items.imgSrc} width={100} height={100} />
 								</div>
@@ -85,15 +80,9 @@ const Services = () => {
 								<div className='text-2xl font-bold mt-6'>${items.price}</div>
 								<p className='text-md font-normal text-black text-center text-opacity-50 mt-4'>{items.subheading}</p>
 							</div>
-							// </Fade>
 						))}
 						{cardData2.map((items, i) => (
-							// <div
-							// 	className='flex flex-col  max-w-[250px] items-center bg-gradient-to-br from-orange100 p-4 rounded-3xl shadow-lg relative border-4 border-orange200'
-							// 	key={i}
-							// >
-							// <Fade direction='right' triggerOnce={true} key={i + 2}>
-							<div className='card-b relative max-w-[310px] rounded-3xl flex flex-col items-center ' key={i + 2}>
+							<div className='card-b relative max-w-[310px] rounded-3xl flex flex-col items-center' key={i + 2}>
 								<div className='work-img-bg rounded-full flex justify-center mb-0'>
 									<Image src={items.imgSrc} alt={items.imgSrc} width={100} height={100} />
 								</div>
@@ -101,7 +90,6 @@ const Services = () => {
 								<div className='text-2xl font-bold mt-6'>${items.price}</div>
 								<p className='text-md font-normal text-black text-center text-opacity-50 mt-4'>{items.subheading}</p>
 							</div>
-							// </Fade>
 						))}
 					</div>
 				</div>

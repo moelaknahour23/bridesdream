@@ -18,12 +18,15 @@ const About = () => {
 						<h2 className='text-3xl lg:text-4xl font-semibold text-black lg:text-start text-center mb-8'>About Us</h2>
 						{/* </Fade> */}
 						{/* <Fade direction='right' triggerOnce={true}> */}
+						<p className='text-grey md:text-lg font-normal mb-5 text-start'>
+							At Bride's Dream, we’re dedicated to making your wedding day as flawless as you’ve imagined. Our on-site steaming service ensures that every{' '}
+							<strong>garment</strong>, from <strong>wedding gowns</strong> to <strong>tuxedos</strong>, is ready for your big day. Our team arrives at your location
+							with professional equipment, carefully steaming each piece to create a crisp, polished look.
+						</p>
 						<p className='text-grey md:text-lg font-normal mb-10 text-start'>
-							Ensure your wedding day is flawless with our on-site steaming service. We come to your location before the wedding to steam wedding gowns, tuxedos, or
-							any other garments, ensuring a crisp and clean look. Our professional team is dedicated to providing high-quality service, paying attention to every
-							detail, so you can feel confident and beautiful on your special day. We understand the importance of looking perfect, which is why we arrive on time and
-							with all the necessary equipment to make sure your attire is immaculate. Trust us to help you look your best, and enjoy peace of mind knowing that your
-							garments will be ready for your big moment!
+							We understand that <strong>every detail matters</strong> on your special day. That’s why we prioritize punctuality and precision, handling every garment
+							with exceptional care so you can feel confident and radiant. Trust Bride's Dream to deliver not only impeccable results but also the peace of mind you
+							deserve, allowing you to relax and savor each unforgettable moment.
 						</p>
 						{/* </Fade> */}
 					</div>
