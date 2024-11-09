@@ -13,7 +13,7 @@ const Packages = () => {
 				</div>
 				<div className='grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 px-8 gap-12 text-zinc800 justify-center'>
 					{/* <Fade direction='left' triggerOnce={true}> */}
-					<div className='flex flex-col  max-w-[300px] h-[400px]  bg-gradient-to-br from-lightRed100 via-lightRed p-4 rounded-2xl shadow-lg relative border-4 border-red400'>
+					<div className='flex flex-col  max-w-[300px] h-[400px]  bg-gradient-to-br  p-4 rounded-2xl shadow-lg relative border-4 border-pink'>
 						<div>
 							<h2 className='font-extrabold text-2xl text-center mb-1'>Starter</h2>
 							<p className='opacity-60 text-center'>Wedding Gown & Tuxedo Package</p>
@@ -50,13 +50,13 @@ const Packages = () => {
 					</div>
 					{/* </Fade>
 				<Fade direction='left' triggerOnce={true}> */}
-					<div className='flex flex-col  max-w-[300px] h-[400px] items-center bg-gradient-to-br from-lightRed100 via-lightRed p-4 rounded-2xl shadow-lg relative border-4 border-red400'>
+					<div className='flex flex-col  max-w-[300px] h-[400px] items-center bg-gradient-to-br  p-4 rounded-2xl shadow-lg relative border-4 border-pink '>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							viewBox='0 0 24 24'
 							fill='currentColor'
 							aria-hidden='true'
-							className='w-16 h-16 absolute -top-11 -left-11 fill-red400'
+							className='w-16 h-16 absolute -top-11 -left-11 fill-pink'
 						>
 							<path
 								fill-rule='evenodd'
@@ -64,7 +64,7 @@ const Packages = () => {
 								clip-rule='evenodd'
 							></path>
 						</svg>
-						<p className='mono text-sm absolute -top-4 bg-red400 text-zinc100 py-0.5 px-2 font-bold tracking-wider rounded'>POPULAR</p>
+						<p className='mono text-sm absolute -top-4 bg-pink  text-zinc100 py-0.5 px-2 font-bold tracking-wider rounded'>POPULAR</p>
 						<div>
 							<div className='flex gap-4 justify-center'>
 								<p className='font-extrabold text-2xl mb-2'>Silver</p>
@@ -115,7 +115,7 @@ const Packages = () => {
 					</div>
 					{/* </Fade>
 				<Fade direction='right' triggerOnce={true}> */}
-					<div className='flex flex-col  max-w-[300px] h-[400px] items-center bg-gradient-to-br from-lightRed100 via-lightRed p-4 rounded-2xl shadow-lg relative border-4 border-red400'>
+					<div className='flex flex-col  max-w-[300px] h-[400px] items-center bg-gradient-to-br  p-4 rounded-2xl shadow-lg relative border-4 border-pink '>
 						<div>
 							<h2 className='font-extrabold text-2xl text-center mb-2'>Gold</h2>
 							<p className='opacity-60 text-center'>Bride & Bridal Package</p>
@@ -151,7 +151,7 @@ const Packages = () => {
 					</div>
 					{/* </Fade>
 				<Fade direction='right' triggerOnce={true}> */}
-					<div className='flex flex-col  max-w-[300px] h-[400px] items-center bg-gradient-to-br from-lightRed100 via-lightRed p-4 rounded-2xl shadow-lg relative border-4 border-red400'>
+					<div className='flex flex-col  max-w-[300px] h-[400px] items-center bg-gradient-to-br  p-4 rounded-2xl shadow-lg relative border-4 border-pink '>
 						<div>
 							<h2 className='font-extrabold text-2xl text-center mb-2 '>Platinum</h2>
 							<p className='opacity-60 text-center'>Premium Package</p>
